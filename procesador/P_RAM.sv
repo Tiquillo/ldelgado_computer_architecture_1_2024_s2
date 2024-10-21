@@ -25,11 +25,6 @@ module P_RAM
 		
 			RAM[A[13:2]] = WD;
 			
-			$display("\n\n---Write cycle DataMem----");
-			$display("Address (hex):---------- %h", A);
-			$display("Write data (hex):------- %h", WD);
-			$display("Write data (dec):------- %d", WD);
-			
 		end		
 		
 	end

@@ -50,15 +50,25 @@ module top
 								);
 	
 	// Memoria de datos
-	P_RAM data_mem(
+	//P_RAM data_mem(
+	//						// Entradas
+	//						.clk(clk), 
+	//						.WE(MemWrite), 
+	//						.A(DataAdr), 
+	//						.WD(WriteData),
+	//						.startIO(startIO),
+	//						// Salidas
+	//						.RD(ReadData)
+	//						);
+	//Nueva implementación de memoria con IP_RAM
+	IP_RAM data_mem(
 							// Entradas
-							.clk(clk), 
-							.WE(MemWrite), 
-							.A(DataAdr), 
-							.WD(WriteData),
-							.startIO(startIO),
+							.address(DataAdr),
+							.clock(clk),
+							.data(WriteData),
+							.wren(MemWrite),
 							// Salidas
-							.RD(ReadData)
+							.q(ReadData)
 							);
 	// Modulo para comuncacion con interprete
 	interpreter_comunication ic 	(
