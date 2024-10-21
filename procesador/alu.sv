@@ -17,35 +17,35 @@ module alu #(parameter N = 4)
 		always_comb
 		begin
 			case (opcode_i)
-					ARITH_SUM:
-					begin
-						result_r = (a_i + b_i);
+				ARITH_SUM:
+				begin
+					result_r = (a_i + b_i);
+				end
+				ARITH_RES:
+				begin
+					result_r = (a_i - b_i);
+				end
+				ARITH_MUL:
+				begin
+					result_r = (a_i * b_i);
+				end
+				ARITH_DIV:
+				begin
+					if (b_i != 0) begin
+								result_r = (a_i / b_i);
+						end else begin
+								result_r = '0;
+						end
 					end
-					ARITH_RES:
-					begin
-						result_r = (a_i - b_i);
-					end
-					ARITH_MUL:
-					begin
-						result_r = (a_i * b_i);
-					end
-					ARITH_DIV:
-               begin
-					  if (b_i != 0) begin
-								 result_r = (a_i / b_i);
-							end else begin
-								 result_r = '0;
-							end
-					  end
-					// Hace lo mismo que un mov
-					CR_:
-					begin
-						result_r = b_i; 
-					end
-					default:
-					begin
-						result_r = '0;
-					end
+				// Hace lo mismo que un mov
+				CR_:
+				begin
+					result_r = b_i; 
+				end
+				default:
+				begin
+					result_r = '0;
+				end
 			endcase
 		end
 		
