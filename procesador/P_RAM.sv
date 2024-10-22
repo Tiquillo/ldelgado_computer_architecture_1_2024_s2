@@ -11,12 +11,12 @@ module P_RAM
 	
 	// Se inicializa la memoria de datos
 	initial 
-		$readmemh("RAMdata.dat",RAM);
+		$readmemh("C:/Users/lujim/Downloads/proyecto_arqui1/procesador/RAMdata.dat",RAM);
 	
 	logic [31:0] RAM[101:0];
 	
 	always@(startIO)
-		$writememh("RAMdata.dat",RAM);
+		$writememh("C:/Users/lujim/Downloads/proyecto_arqui1/procesador/RAMdata.dat",RAM);
 
 	
 	always_ff @(posedge clk) begin

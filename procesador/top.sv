@@ -1,13 +1,15 @@
+`timescale 1 ps / 1 ps
 module top
 (
 	// Entradas
-	input logic clk_FPGA, reset, start,
+	input logic clk_FPGA, reset, start, startIO,
 	
 	// Salidas
 	output logic EndFlag, clk_out,
 	output logic [7:0] ReadDataOut
 );
 	logic [31:0] WriteData, DataAdr, ReadData;
+	//logic [17:0] DataAdr;
 	logic MemWrite, MemtoReg;
 	logic [31:0] PC, Instr;
 	logic clk;
@@ -50,26 +52,26 @@ module top
 								);
 	
 	// Memoria de datos
-	//P_RAM data_mem(
-	//						// Entradas
-	//						.clk(clk), 
-	//						.WE(MemWrite), 
-	//						.A(DataAdr), 
-	//						.WD(WriteData),
-	//						.startIO(startIO),
-	//						// Salidas
-	//						.RD(ReadData)
-	//						);
-	//Nueva implementación de memoria con IP_RAM
-	IP_RAM data_mem(
+	P_RAM data_mem(
 							// Entradas
-							.address(DataAdr),
-							.clock(clk),
-							.data(WriteData),
-							.wren(MemWrite),
+							.clk(clk), 
+							.WE(MemWrite), 
+							.A(DataAdr), 
+							.WD(WriteData),
+							.startIO(startIO),
 							// Salidas
-							.q(ReadData)
+							.RD(ReadData)
 							);
+	//Nueva implementación de memoria con IP_RAM
+	//IP_RAM data_mem(
+	//						// Entradas
+	//						.address(DataAdr),
+	//						.clock(clk),
+	//						.data(WriteData),
+	//						.wren(MemWrite),
+	//						// Salidas
+	//						.q(ReadData)
+	//						);
 	// Modulo para comuncacion con interprete
 	interpreter_comunication ic 	(
 											// Entradas

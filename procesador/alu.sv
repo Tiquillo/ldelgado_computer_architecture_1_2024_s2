@@ -37,7 +37,6 @@ module alu #(parameter N = 4)
 								result_r = '0;
 						end
 					end
-				// Hace lo mismo que un mov
 				CR_:
 				begin
 					result_r = b_i; 

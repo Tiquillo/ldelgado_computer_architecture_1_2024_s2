@@ -11,7 +11,7 @@ module P_ROM
 	
 	// Se inicializa la memoria de instrucciones
 	initial
-		$readmemh("ROMdata.dat",RAM);
+		$readmemh("C:/Users/lujim/Downloads/proyecto_arqui1/procesador/ROMdata.dat",RAM);
 	
 	assign RD = RAM[A[31:2]];
 	
