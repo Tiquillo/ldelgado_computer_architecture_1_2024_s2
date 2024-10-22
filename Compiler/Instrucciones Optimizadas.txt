@@ -1,0 +1,52 @@
+la
+lbu
+
+add
+addu
+
+bge
+blt
+
+sb
+sub
+sll
+srl
+syscall
+
+move
+
+mulu
+
+ulw
+usw
+
+div
+
+j
+
+nop
+
+
+$zero→ R0
+$v0→ R1
+$a0→ R2
+$a1→ R3
+$a2→ R4
+$t0→ R5
+$t1→ R6
+$t2→ R7
+$t3→ R8
+$t4→ R9
+$t5→ R10
+$t6→ R11
+$t7→ R12
+$t8→ R13
+$t9→ R14
+$s0→ R15
+$s1→ R16
+$s2→ R17
+$s3→ R18
+$s4→ R19
+$s5→ R20
+$s6→ R21
+$s7→ R22

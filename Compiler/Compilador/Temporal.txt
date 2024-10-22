@@ -1,0 +1,77 @@
+.data
+inbuf:			.space 6500	#for 250000 and 16=16: max width of src image = 3900
+outbuf:			.space 5000
+src:			.asciiz "parte_6.bmp"
+dst:			.asciiz "dst.bmp"
+
+.text
+
+#Sistema
+Sistema:
+NOP
+
+LLAME
+
+#Registro_Registro
+Registro_Registro:
+SUM R1, R2, R3
+
+SUMNOSIGN R2, R3, R4
+
+RES R4, R6, R8
+
+MULTNOSIGN R3, R10, R11
+
+DIV R1, R2, R18
+
+COPY R5, R6
+
+
+#Registro - Inmediato
+Registro_Inmediato:
+SUM_I R1, R5, 8
+
+SUMNOSIGN_I R2, R6, 7
+
+RES_I R20, R13, 1
+
+MULTNOSIGN_I R8, R3, 2
+
+DIV_I R9, R6, 5
+
+DSPLIZQ R8, R8, 24
+
+DSPLDER R8, R8, 24
+
+
+
+#Memoria - Registro
+Memoria_Registro:
+LOADDIR R1, src
+
+STOREBYTE R6, (R15)
+
+LOADBYTENOSIGN R2, (R5)
+
+#Memoria - Registro - Inmediato
+Memoria_Registro_Inmediato:
+LOADWORDNOSIGN R1, inbuf+14
+
+STOREWORDNOSIGN R4, inbuf+16
+
+STOREBYTE_I R2, outbuf(R6)
+
+LOADBYTENOSIGN_I R1, inbuf(R7)
+
+#Control
+Control:
+SALMAYIG R6, R7, Sistema
+
+SALMEN R8, R5, Control
+
+SAL Sistema
+
+#Control - Inmediato
+Control_Inmediato:
+
+SALMAYIG_I R6, 10000, Control_Inmediato
