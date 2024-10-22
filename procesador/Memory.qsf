@@ -39,7 +39,7 @@
 
 set_global_assignment -name FAMILY "Cyclone V"
 set_global_assignment -name DEVICE 5CSEMA5F31C6
-set_global_assignment -name TOP_LEVEL_ENTITY IP_RAM
+set_global_assignment -name TOP_LEVEL_ENTITY top
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 23.1STD.0
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "13:25:26  MAY 03, 2024"
 set_global_assignment -name LAST_QUARTUS_VERSION "22.1std.0 Lite Edition"
@@ -57,7 +57,7 @@ set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST OFF -section_id eda_
 set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
 set_global_assignment -name EDA_TEST_BENCH_ENABLE_STATUS TEST_BENCH_MODE -section_id eda_simulation
-set_global_assignment -name EDA_NATIVELINK_SIMULATION_TEST_BENCH RAM_TB -section_id eda_simulation
+set_global_assignment -name EDA_NATIVELINK_SIMULATION_TEST_BENCH TB_TOP -section_id eda_simulation
 set_global_assignment -name EDA_TEST_BENCH_NAME TB_PC_CONTROL_UNIT -section_id eda_simulation
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id TB_PC_CONTROL_UNIT
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME TB_PC_CONTROL_UNIT -section_id TB_PC_CONTROL_UNIT
@@ -107,6 +107,7 @@ set_global_assignment -name SYSTEMVERILOG_FILE RAM_TB.sv
 set_global_assignment -name EDA_TEST_BENCH_NAME RAM_TB -section_id eda_simulation
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id RAM_TB
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME RAM_TB -section_id RAM_TB
+set_global_assignment -name QIP_FILE IP_RAM.qip
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
@@ -116,5 +117,4 @@ set_global_assignment -name EDA_TEST_BENCH_FILE TB_TOP.sv -section_id TB_TOP
 set_global_assignment -name EDA_TEST_BENCH_FILE P_ROM_tb.sv -section_id P_ROM_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE TB_P_RAM.sv -section_id TB_P_RAM
 set_global_assignment -name EDA_TEST_BENCH_FILE RAM_TB.sv -section_id RAM_TB
-set_global_assignment -name QIP_FILE IP_RAM.qip
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

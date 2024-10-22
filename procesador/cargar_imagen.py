@@ -1,7 +1,7 @@
 from PIL import Image
 import numpy as np
 
-MAX_SIZE = 65536*2
+MAX_SIZE = 2**18
 
 ## Genera el archivo .mif para cargar los datos de la imagen en la ROM
 def generate_mif_file(grey_image_array):
@@ -40,8 +40,8 @@ def save_grey_image(grey_image_array, name):
 ## Convierte una imagen a una matriz de numpy en escala de grises, rango [0 (negro), 255 (blanco)]
 def convert(file_name):
     image = Image.open(file_name)
-    new_image = image.resize((256, 256))
-    image_array = np.array(new_image)
+    #new_image = image.resize((256, 256))
+    image_array = np.array(image)
     grey_image_array = np.empty([len(image_array), len(image_array[0])])
 
     for i in range(len(image_array)):

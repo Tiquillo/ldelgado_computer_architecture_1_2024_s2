@@ -1,7 +1,7 @@
 module top
 (
 	// Entradas
-	input logic clk_FPGA, reset, start, startIO,
+	input logic clk_FPGA, reset, start,
 	
 	// Salidas
 	output logic EndFlag, clk_out,

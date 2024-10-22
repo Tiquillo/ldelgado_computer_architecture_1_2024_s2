@@ -1,96 +1,94 @@
-# Diccionario de instrucciones y sus opcodes
-INSTRUCTION_SET = {
-    # Tipo Sistema (00)
-    "NOP": "00000000000000000000000000000000",
-    "END": "00000000000000000000000000000001",
+import os
+import re
+from assembler import Binary
+from assembler import opcode_dict
+from shutil import copyfile
+
+class Compiler:
+    labels = []
+    instructions = []
+    errors = []
+
+    def __init__(self, in_file, out_file):
+        self.i_file = self.get_path(in_file)
+        self.o_file = self.get_path(out_file)
+        self.compile()
+  
+  
+    def get_path(self, relative_path):
+        return os.path.join(os.getcwd() , relative_path)
     
-    # Tipo Datos (01)
-    "SUM": "010001",  # Instrucción SUM
-    "RES": "010010",  # Instrucción RESTA
-    "CR":  "010011",  # Instrucción AND
-    "MUL": "010100",  # Instrucción MULTIPLICACIÓN
-    "CE":  "010101",  # Instrucción COMPARACIÓN
+    def __str__(self):
+        return f"{self.i_file}({self.o_file})"
 
-    # Tipo Memoria (10)
-    "DEME": "100001",  # Leer de memoria
-    "TOME": "100010",  # Escribir en memoria
+    def compile(self):
+        self.read()
+        self.run()
+        self.write()
 
-    # Tipo Control (11)
-    "BRIN": "110001",  # Salto incondicional
-    "BETO": "110010",  # Salto condicional
-    "BMNQ": "110011",  # Salto negativo
-    "BMQ":  "110100"   # Salto positivo
-}
+    def read(self):
+        with open(self.i_file) as file:
+            self.lines = file.readlines()
+        
+    def write(self):
+        with open(self.o_file, "w") as file:
+            for i in range(0, len(self.instructions)-1):
+                file.write(self.instructions[i]+'\n')
+            file.write(self.instructions[len(self.instructions)-1])
+        
+        file.close()
+      
+    def run(self):
+        self.lines = self.remove(self.lines)
+        # for i in self.lines:
+        #   print(i)
+        # print()
+        Binary.Labels = self.labels
+        self.instructions = list(map(self.parse, self.lines))
+        
+    def remove(self, arr):
+        arr = list(map(lambda x: x.lower().replace(" ", "").replace("\n", "").replace("\t", ""), arr))
+        tmp = []
+        newlines_ctr = 0
+        
+        # Regular expression to verify labels
+        start_with = '^[A-Za-z_][A-Za-z0-9_]*'
+        end_with = ':$'
+        for i in range(len(arr)):
+            # Stripe out comments
+            x = arr[i].split(';')[0]
+        
+            if (x.strip()==""): newlines_ctr+=1
 
-# Diccionario de registros
-REGISTERS = {
-    "R0": "0000",
-    "R1": "0001",
-    "R2": "0010",
-    "R3": "0011",
-    "R4": "0100",
-    "R5": "0101",
-    "R6": "0110",
-    "R7": "0111",
-    "R8": "1000",
-    "R9": "1001",
-    "R10": "1010",
-    "R11": "1011",
-    "R12": "1100",
-    "R13": "1101",
-    "R14": "1110",
-    "R15": "1111"
-}
+            # analize if label
+            if re.findall(end_with,x):
+                if re.findall(start_with, x):
+                    if x in self.labels:
+                        self.error.append('Error en linea {}: etiqueta repetida.'.format(i+1))
+                    self.labels.append((x.replace(":",""), (i+1)-len(self.labels)-newlines_ctr))
+                    continue
+                else:
+                    self.error.append('Error en linea {}: formato de la etiqueta incorrecto.'.format(i+1))
 
-def compile_instruction(instruction):
-    parts = instruction.split()
-    opcode = parts[0]
+            ## analize mnemonics
+            for key in opcode_dict:
+                if (key.lower() == x[0:5]) or (key.lower() == x[0:4]) or (key.lower() == x[0:3]) or (key.lower() == x[0:2]):
+                    # remove garbage
+                    x = [x[0:len(key)], x[len(key):], i+1]
+                    tmp.append(x)
+        return tmp
     
-    if opcode == "NOP" or opcode == "END":
-        return INSTRUCTION_SET[opcode]  # Estas instrucciones son directas
+    def parse(self, x):
+        # print('Entry:\t:', x[0],x[1], x[2])
+        instr = Binary(Mnemonic=x[0], Rest=x[1], Line=x[2])
+        print(instr)
+        return instr.getHex()
 
-    elif opcode in ["SUM", "RES", "CR", "MUL", "CE"]:  # Tipo registro-inmediato
-        rd = REGISTERS[parts[1]]  # Registro destino
-        rs1 = REGISTERS[parts[2]]  # Primer registro
-        imm = format(int(parts[3]), '016b')  # Inmediato en binario de 16 bits
-        
-        binary_instr = INSTRUCTION_SET[opcode] + rd + rs1 + imm
-        return binary_instr
 
-    elif opcode in ["DEME", "TOME"]:  # Instrucciones de memoria
-        rd = REGISTERS[parts[1]]  # Registro destino
-        rs1 = REGISTERS[parts[2]]  # Registro fuente
-        imm = format(int(parts[3]), '016b')  # Inmediato (dirección)
-        
-        binary_instr = INSTRUCTION_SET[opcode] + rd + rs1 + imm
-        return binary_instr
+in_ = "instrucciones.pedro"
+out_ = "ROMdata.dat"
+compiler = Compiler(in_, out_)
 
-    elif opcode in ["BRIN", "BETO", "BMNQ", "BMQ"]:  # Instrucciones de control
-        rs1 = REGISTERS[parts[1]]  # Registro base
-        imm = format(int(parts[2]), '016b')  # Dirección de salto en binario
-        
-        binary_instr = INSTRUCTION_SET[opcode] + rs1 + imm
-        return binary_instr
+# copyfile("inst_mem_init.dat", out_)
 
-    else:
-        raise ValueError(f"Instrucción no soportada: {opcode}")
-
-def write_to_file(binary_instr):
-    hex_instr = hex(int(binary_instr, 2))[2:].zfill(8).upper()  # Convertir a hexadecimal
-    with open("ROMdata.dat", "a") as file:
-        file.write(hex_instr + "\n")
-
-def main():
-    # Aquí puedes agregar las instrucciones que quieras compilar
-    #leer archivo de texto llamado instrucciones.txt
-    instrucciones = []
-    with open("instrucciones.txt", "r") as file:
-        instrucciones = file.readlines()
-    
-    for instr in instrucciones:
-        binary_instr = compile_instruction(instr)
-        write_to_file(binary_instr)
-        print(f"Instrucción: {instr} -> {binary_instr}")
-
-if __name__ == "__main__":
-    main()
+print("Se ha compilado el programa correctamente")
