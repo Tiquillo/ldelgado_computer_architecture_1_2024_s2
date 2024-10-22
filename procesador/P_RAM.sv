@@ -1,0 +1,38 @@
+module P_RAM
+(
+	// Entradas
+	input logic clk, WE,
+	input logic [31:0] A, WD,
+	input logic startIO,
+	
+	// Salidas
+	output logic [31:0] RD
+);
+	
+	// Se inicializa la memoria de datos
+	initial 
+		$readmemh("C:/Users/lujim/Downloads/proyecto_arqui1/procesador/RAMdata.dat",RAM);
+	
+	logic [31:0] RAM[101:0];
+	
+	always@(startIO)
+		$writememh("C:/Users/lujim/Downloads/proyecto_arqui1/procesador/RAMdata.dat",RAM);
+
+	
+	always_ff @(posedge clk) begin
+	
+		if (WE) begin
+		
+			RAM[A[13:2]] = WD;
+			
+		end		
+		
+	end
+	
+	
+	
+	assign RD = RAM[A[13:2]];
+	
+	
+	
+endmodule

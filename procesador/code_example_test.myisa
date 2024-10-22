@@ -1,0 +1,26 @@
+CR R2, #0       // Funcion1
+NOP
+NOP
+NOP
+NOP
+TOME R1, [R2]
+NOP
+NOP
+NOP
+NOP
+DEME R1, [R2, #153663]
+SUM R2, R2, #1
+NOP
+NOP
+NOP
+NOP
+CE R2, #153663
+NOP
+NOP
+NOP
+NOP
+BMNQ 6  // Fin Funcion1
+END
+
+
+
