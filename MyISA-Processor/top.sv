@@ -70,7 +70,7 @@ module top
 	*/
 
 	// Misma RAM que el vga
-	Ram Ram_inst(
+	IP_RAM Ram_inst(
 		.address(DataAdr),
 		.clock(clk),
 		.data(WriteData),

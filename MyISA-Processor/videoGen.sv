@@ -3,7 +3,7 @@ module videoGen(input logic [9:0] x, y, input logic clk, output logic [7:0] r, g
 
 	logic [31:0] Q;
 	logic [31:0] Temp;
-	Ram Ram_inst(
+	IP_RAM Ram_inst(
 		.address((x + 392*y)/4), //Avanza en memoria por pixel, el 392 viene de ser una imagen 256x256
 		.clock(clk),
 		.data(0),
