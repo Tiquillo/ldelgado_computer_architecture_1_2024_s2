@@ -2,6 +2,8 @@
 module TB_TOP();
 	logic clk, reset, start, EndFlag, ReadEnable;
 	logic [7:0] ByteOut;
+	logic hsync, vsync, sync_b, blank_b;
+	logic [7:0] r, g, b;
 	
 	// instantiate device to be tested
 	top dut(
@@ -10,7 +12,14 @@ module TB_TOP();
 		.start(start), 
 		.EndFlag(EndFlag),
 		.clk_out(ReadEnable),
-		.ReadDataOut(ByteOut)
+		.ReadDataOut(ByteOut),
+		.hsync(hsync),
+		.vsync(vsync),
+		.sync_b(sync_b),
+		.blank_b(blank_b),
+		.r(r),
+		.g(g),
+		.b(b)
 	);
 	// generate clock to sequence tests
 	always

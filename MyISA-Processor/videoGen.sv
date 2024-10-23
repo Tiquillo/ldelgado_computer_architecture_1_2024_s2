@@ -21,7 +21,7 @@ module videoGen(input logic [9:0] x, y, input logic clk, output logic [7:0] r, g
 	// );
 
 	always @(*) begin
-		if (x > 392 || y > 392) begin // Solo dibujar una vez
+		if (x > 392 || y > 392) begin
 			Temp = 0;
 		end else begin
 			Temp = Q;

@@ -103,7 +103,7 @@ module top
 	vga vd (
 				// Entradas
 				.clk(clk),
-				.reset(reset),
+				.rst(reset),
 				// Salidas
 				.vgaclk(vgaclk),
 				.hsync(hsync),
