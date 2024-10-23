@@ -56,16 +56,27 @@ module top
 								);
 	
 	// Memoria de datos
-	P_RAM data_mem(
-							// Entradas
-							.clk(clk), 
-							.WE(MemWrite), 
-							.A(DataAdr), 
-							.WD(WriteData),
-							.startIO(startIO),
-							// Salidas
-							.RD(ReadData)
-							);
+	/*
+		P_RAM data_mem(
+								// Entradas
+								.clk(clk), 
+								.WE(MemWrite), 
+								.A(DataAdr), 
+								.WD(WriteData),
+								.startIO(startIO),
+								// Salidas
+								.RD(ReadData)
+								);
+	*/
+
+	// Misma RAM que el vga
+	Ram Ram_inst(
+		.address(DataAdr),
+		.clock(clk),
+		.data(WriteData),
+		.wren(MemWrite),
+		.q(ReadData)
+		);
 	//Nueva implementación de memoria con IP_RAM
 	//IP_RAM data_mem(
 	//						// Entradas

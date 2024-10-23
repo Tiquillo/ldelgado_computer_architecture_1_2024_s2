@@ -1,12 +1,15 @@
 from PIL import Image
 import numpy as np
 
-MAX_SIZE = 2**18
+MAX_SIZE = 2**16
 
 ## Genera el archivo .mif para cargar los datos de la imagen en la ROM
 def generate_mif_file(grey_image_array):
     image_width = len(grey_image_array[0])
     image_depth = len(grey_image_array)
+
+    print("Width: " + str(image_width))
+    print("Depth: " + str(image_depth))
 
     string_datos = "-- Imagen Generada\n\n"
     string_datos += "WIDTH=" + str(32) + ";\n" + "DEPTH=" + str(MAX_SIZE) + ";\n\n"
@@ -14,12 +17,22 @@ def generate_mif_file(grey_image_array):
 
     string_datos += "CONTENT BEGIN\n"
 
-    for i in range(image_depth):
-        for j in range(image_width):
-
-            string_datos += str(i*image_width + j) + " : "
-            string_datos += format(int(grey_image_array[i][j]), '08x') + ";\n"
-    
+    #for i in range(image_depth/4):
+    #    for j in range(image_width/4):
+    #        string_datos += str(i*image_width/4 + j) + " : "
+    #        #string_datos += format(int(grey_image_array[i][j]), '08x') + ";\n"
+    #        string_datos += hex(grey_image_array[i][j])[2:] + hex(grey_image_array[i+1][j+1])[2:] + hex(grey_image_array[i+2][j+2])[2:] + hex(grey_image_array[i+3][j+3])[2:] + ";\n"
+    i = 0
+    j = 0
+    for add in range(int(image_depth/4 * image_width/4)):
+        temp_string = ""
+        for k in range(4):
+            temp_string += hex(int(grey_image_array[i][j]))[2:]
+            j += 1
+            if j == image_width:
+                j = 0
+                i += 1
+        string_datos += str(add) + " : " + temp_string + ";\n"
 
     if (image_depth * image_width < MAX_SIZE):
         string_datos += "[" + str(image_depth * image_width) + ".." + str(MAX_SIZE - 1) + "] : 00 ; \n"
